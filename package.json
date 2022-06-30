@@ -4,7 +4,8 @@
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
   "scripts": {
-    "build": "node prebuild.js && tsc && node postbuild.js"
+    "build": "node prebuild.js && tsc && node postbuild.js",
+    "test": "echo \"No tests written\""
   },
   "author": {
     "name": "Anand Swaroop",
