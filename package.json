@@ -1,6 +1,6 @@
 {
   "name": "@anut-py/dime",
-  "version": "0.0.1-alpha1",
+  "version": "0.0.1-alpha.1",
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
   "scripts": {
