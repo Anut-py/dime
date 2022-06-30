@@ -1,6 +1,7 @@
 const fs = require("fs");
 const source = fs.readFileSync(__dirname + "/package.json").toString("utf-8");
 const readme = fs.readFileSync(__dirname + "/README.md").toString("utf-8");
+const license = fs.readFileSync(__dirname + "/LICENSE").toString("utf-8");
 const sourceObj = JSON.parse(source);
 delete sourceObj.scripts;
 delete sourceObj.devDependencies;
@@ -18,4 +19,8 @@ fs.writeFileSync(
 fs.writeFileSync(
     __dirname + "/out/README.md",
     Buffer.from(readme, "utf-8")
+);
+fs.writeFileSync(
+    __dirname + "/out/LICENSE",
+    Buffer.from(license, "utf-8")
 );
