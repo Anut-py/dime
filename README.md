@@ -1,5 +1,5 @@
 # DIME:  Dependency injection made easy
-[![Node.js Package](https://github.com/Anut-py/dime/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/Anut-py/dime/actions/workflows/npm-publish.yml)
+[![Publish to NPM](https://github.com/Anut-py/dime/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/Anut-py/dime/actions/workflows/npm-publish.yml)
 
 Dime is an extremely simple API that has one job: dependency injection.
 
