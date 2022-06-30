@@ -1,20 +1,38 @@
 {
-  "name": "dime",
+  "name": "@anut-py/dime",
   "version": "0.0.1-alpha1",
   "description": "Dependency injection made easy",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "node prebuild.js && tsc && node postbuild.js"
   },
-  "author": "Anand Swaroop",
-  "license": "ISC",
+  "author": {
+    "name": "Anand Swaroop",
+    "email": "anandswaroop191@gmail.com",
+    "url": "https://github.com/Anut-py"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@tsconfig/node12": "^1.0.11",
-    "@types/node": "^18.0.0"
+    "@types/node": "^18.0.0",
+    "typescript": "^4.7.4"
   },
   "dependencies": {
     "rxjs": "^7.5.5"
   },
   "readme": "README.md",
-  "keywords": ["dependency", "injection", "decoupling"]
+  "keywords": [
+    "dependency",
+    "injection",
+    "decoupling"
+  ],
+  "homepage": "https://github.com/Anut-py/dime#readme",
+  "bugs": {
+    "url": "https://github.com/Anut-py/dime/issues",
+    "email": "anandswaroop191@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Anut-py/dime.git"
+  }
 }
