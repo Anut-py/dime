@@ -1,0 +1,20 @@
+{
+  "name": "dime",
+  "version": "0.0.1-alpha1",
+  "description": "Dependency injection made easy",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Anand Swaroop",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node12": "^1.0.11",
+    "@types/node": "^18.0.0"
+  },
+  "dependencies": {
+    "rxjs": "^7.5.5"
+  },
+  "readme": "README.md",
+  "keywords": ["dependency", "injection", "decoupling"]
+}
