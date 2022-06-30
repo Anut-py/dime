@@ -6,7 +6,8 @@ import {
     Provider,
     ProviderWithData,
     Token,
-    TypeRef
+    TypeRef,
+    ProviderToken
 } from "./lib/models";
 
 export {
@@ -18,5 +19,6 @@ export {
     ProviderWithData,
     Token,
     TypeRef,
+    ProviderToken
 };
 

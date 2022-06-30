@@ -1,5 +1,5 @@
 {
-  "name": "@anut-py/dime",
+  "name": "@coined/dime",
   "version": "0.0.1-alpha.1",
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
@@ -24,7 +24,9 @@
   "keywords": [
     "dependency",
     "injection",
-    "decoupling"
+    "decoupling",
+    "di",
+    "inject"
   ],
   "homepage": "https://github.com/Anut-py/dime#readme",
   "bugs": {

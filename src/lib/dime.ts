@@ -4,7 +4,7 @@ import { Package } from "./models";
 
 export namespace Dime {
     export function mountPackages(...packages: Package[]) {
-        const bundle = new Package("RootPackage", ...packages);
+        const bundle = new Package("Dime", ...packages);
         for (let injectable of bundle.__providers) {
             if (!injectable.token) {
                 throw new DimeMountingError(

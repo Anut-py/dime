@@ -1,20 +1,20 @@
 import { BehaviorSubject } from "rxjs";
-import { Token, TypeRef } from "./models";
+import { ProviderToken, Token, TypeRef } from "./models";
 
 class KeyMap {
-    private _vals = new Map<Token | TypeRef<any>, any>();
-    private _keys: (Token | TypeRef<any>)[] = [];
+    private _vals = new Map<ProviderToken, any>();
+    private _keys: ProviderToken[] = [];
 
-    get(key: Token | TypeRef<any>) {
+    get(key: ProviderToken) {
         return this._vals.get(key);
     }
 
-    set(key: Token | TypeRef<any>, value: any) {
+    set(key: ProviderToken, value: any) {
         if (!this._keys.includes(key)) this._keys.push(key);
         this._vals.set(key, value);
     }
 
-    has(key: Token | TypeRef<any>) {
+    has(key: ProviderToken) {
         return this._vals.has(key);
     }
 
@@ -25,7 +25,8 @@ class KeyMap {
 
 export const __deps = new KeyMap();
 export const __done = new BehaviorSubject(false);
-export function getTokenName(token: TypeRef<any> | Token) {
-    if (token instanceof Token) return token.description;
+export function getTokenName(token: ProviderToken) {
+    if (typeof token === "string") return token;
+    else if (token instanceof Token) return token.description;
     else return token.name;
 }

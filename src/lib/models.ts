@@ -1,4 +1,5 @@
 import { DimeSetupError } from "./errors";
+import { getTokenName } from "./internal";
 
 export interface TypeRef<T> extends Function {
     new (...args: any[]): T;
@@ -8,8 +9,10 @@ export class Token {
     constructor(public readonly description: string) {}
 }
 
+export type ProviderToken = string | Token | TypeRef<any>;
+
 export interface ProviderWithData {
-    token: Token | TypeRef<any>;
+    token: ProviderToken;
     provideClass?: TypeRef<any>;
     provideValue?: any;
 }
@@ -54,7 +57,7 @@ export class Package {
         } else if ((provider as ProviderWithData).token) {
             if (
                 !allProviders.find(
-                    (x: any) => x.token == (provider as ProviderWithData).token
+                    (x: any) => getTokenName(x.token) === getTokenName((provider as ProviderWithData).token)
                 )
             ) {
                 allProviders.push(provider as ProviderWithData);

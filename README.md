@@ -30,7 +30,7 @@ This looks fine at first glance, but what if at some point you decided to get yo
 ```ts
 // With Dime 👍
 import { ItemsService } from './items-service';
-import { Inject } from 'dime';
+import { Inject } from '@coined/dime';
 
 class ItemsWidget {
     @Inject()
@@ -45,7 +45,7 @@ class ItemsWidget {
 
 // Setup
 const appPackage = new Package("App", {
-    token: ItemsService,
+    token: "itemsService",
     provideClass: AmazonItemsService // Use Amazon implementation
 });
 

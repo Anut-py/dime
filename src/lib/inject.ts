@@ -1,9 +1,9 @@
 import { filter } from "rxjs";
 import { DimeInjectionError } from "./errors";
-import { __done, getTokenName, __deps } from "./internal";
-import { Token, TypeRef } from "./models";
+import { getTokenName, __deps, __done } from "./internal";
+import { ProviderToken } from "./models";
 
-export function Inject(type?: Token | TypeRef<any>) {
+export function Inject(type?: ProviderToken) {
     return function (target: any, propertyKey: string): void {
         __done.pipe(filter((x) => !!x)).subscribe(() => {
             if (!type) {
