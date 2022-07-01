@@ -1,6 +1,6 @@
 {
   "name": "@coined/dime",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
   "scripts": {

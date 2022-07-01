@@ -1,5 +1,5 @@
 import { DimeSetupError } from "./errors";
-import { getTokenName } from "./internal";
+import { getTokenName, isClass } from "./internal";
 
 export interface TypeRef<T> extends Function {
     new (...args: any[]): T;
@@ -15,6 +15,7 @@ export interface ProviderWithData {
     token: ProviderToken;
     provideClass?: TypeRef<any>;
     provideValue?: any;
+    provideFactory?: (() => any) | TypeRef<any>;
 }
 
 export type Provider = TypeRef<any> | ProviderWithData;
@@ -48,7 +49,13 @@ export class Package {
 
     private addProvider(provider: Provider, allProviders: ProviderWithData[]) {
         if ((provider as TypeRef<any>).prototype?.constructor) {
-            if (!allProviders.find((x: any) => x.token == provider)) {
+            if (
+                !allProviders.find(
+                    (x: any) =>
+                        getTokenName(x.token) ==
+                        getTokenName(provider as TypeRef<any>)
+                )
+            ) {
                 allProviders.push({
                     token: provider as TypeRef<any>,
                     provideClass: provider as TypeRef<any>,
@@ -56,8 +63,28 @@ export class Package {
             }
         } else if ((provider as ProviderWithData).token) {
             if (
+                (provider as ProviderWithData).provideFactory &&
+                isClass((provider as ProviderWithData).provideFactory)
+            ) {
+                if (
+                    !allProviders.find(
+                        (x: any) =>
+                            getTokenName(x.token) ===
+                            getTokenName((provider as ProviderWithData).token)
+                    )
+                ) {
+                    allProviders.push({
+                        token: (provider as ProviderWithData).token,
+                        provideFactory: () =>
+                            new ((provider as ProviderWithData)
+                                .provideFactory as any)(),
+                    });
+                }
+            } else if (
                 !allProviders.find(
-                    (x: any) => getTokenName(x.token) === getTokenName((provider as ProviderWithData).token)
+                    (x: any) =>
+                        getTokenName(x.token) ===
+                        getTokenName((provider as ProviderWithData).token)
                 )
             ) {
                 allProviders.push(provider as ProviderWithData);
