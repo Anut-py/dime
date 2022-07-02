@@ -2,12 +2,27 @@ import { DimeMountingError } from "./errors";
 import { __done, getTokenName, __deps, KeyMap } from "./internal";
 import { Package, ProviderToken } from "./models";
 
+/**
+ * An interface that allows you to access registered Dime objects
+ */
 export interface Injector {
+    /**
+     * Get the provider registered with a token
+     * @param token The token to search with
+     * @returns The matching provider, or `null` if no provider was found
+     */
     get<T>(token: ProviderToken): T;
+
+    /**
+     * Takes a token and looks for a registered token with the same name.
+     * You probably won't need to use this.
+     * @param token The input token (not necessarily valid)
+     * @returns A registered token with the same name as the input
+     */
     getValidToken(token: ProviderToken): ProviderToken | undefined;
 }
 
-class SimpleInjector implements Injector {
+class MapBasedInjector implements Injector {
     constructor(private providerMap: KeyMap) {}
 
     get<T>(token: ProviderToken): T {
@@ -35,7 +50,14 @@ class SimpleInjector implements Injector {
     }
 }
 
+/**
+ * This namespace includes important functions and objects required for using Dime
+ */
 export namespace Dime {
+    /**
+     * Sets up Dime and configures the given providers
+     * @param packages The packages to mount
+     */
     export function mountPackages(...packages: Package[]) {
         const bundle = new Package("Dime", ...packages);
         for (let injectable of bundle.__providers) {
@@ -66,5 +88,8 @@ export namespace Dime {
         __done.next(true);
     }
 
-    export const injector: Injector = new SimpleInjector(__deps);
+    /**
+     * The global injector; used for injecting any providers set up by Dime
+     */
+    export const injector: Injector = new MapBasedInjector(__deps);
 }
