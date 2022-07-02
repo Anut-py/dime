@@ -52,7 +52,7 @@ const appPackage = new Package("App", {
     provideClass: AmazonItemsService // Use Amazon implementation
 });
 
-Dime.mountPackages(appPackage);
+Dime.configure().withPackages(appPackage).lazy().load();
 
 // Display the widget
 const widget = new ItemsWidget();
