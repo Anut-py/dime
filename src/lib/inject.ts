@@ -4,6 +4,20 @@ import { DimeInjectionError } from "./errors";
 import { getTokenName, __deps, __done } from "./internal";
 import { ProviderToken } from "./models";
 
+/**
+ * A decorator that injects a provider into a class's property.
+ * 
+ * @param type Optional, specifies the token to inject. If this is
+ * omitted, the property name will be used as the token.
+ * 
+ * @example
+ * class Example {
+ *   ＠Inject()
+ *   someService: SomeService; // Injects `SomeService`
+ * }
+ * 
+ * console.log(new Example().someService.getItems());
+ */
 export function Inject(type?: ProviderToken) {
     return function (target: any, propertyKey: string): void {
         __done.pipe(filter((x) => !!x)).subscribe(() => {
