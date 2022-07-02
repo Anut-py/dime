@@ -1,6 +1,6 @@
 import { DimeMountingError } from "./errors";
 import { __done, getTokenName, __deps, KeyMap } from "./internal";
-import { Package, ProviderToken } from "./models";
+import { Package, Provider, ProviderToken } from "./models";
 
 /**
  * An interface that allows you to access registered Dime objects
@@ -20,6 +20,87 @@ export interface Injector {
      * @returns A registered token with the same name as the input
      */
     getValidToken(token: ProviderToken): ProviderToken | undefined;
+}
+
+/**
+ * A builder-type interface to set up Dime
+ */
+export interface DimeSetupBuilder {
+    /**
+     * Marks the specified packages to be mounted
+     * @param packages The packages to add
+     */
+    withPackages(...packages: Package[]): DimeSetupBuilder;
+
+    /**
+     * Configures the module for lazy loading
+     */
+    lazy(): DimeSetupLoader;
+}
+
+/**
+ * An interface to mount the Dime module with the provided setup.
+ * You can get a reference to this through the `lazy` method of
+ * `DimeSetupBuilder`
+ * 
+ * @see {@link DimeSetupBuilder}
+ */
+export interface DimeSetupLoader {
+    /**
+     * Mounts the module
+     */
+    load(): void;
+}
+
+class LazyDimeSetupLoader implements DimeSetupLoader {
+    constructor(private packages: Package[]) {}
+
+    load(): void {
+        const bundle = new Package("Dime", ...this.packages);
+        for (let injectable of bundle.__providers) {
+            if (!injectable.token) {
+                throw new DimeMountingError("Received provider with no token!");
+            } else {
+                const tokenName = getTokenName(injectable.token);
+                const matching = __deps
+                    .keys()
+                    .find((x) => getTokenName(x) === tokenName);
+                if (matching) {
+                    throw new DimeMountingError("Error");
+                } else if (injectable.provideClass) {
+                    __deps.set(injectable.token, new injectable.provideClass());
+                } else if (injectable.provideValue) {
+                    __deps.set(injectable.token, injectable.provideValue);
+                } else if (injectable.provideFactory) {
+                    __deps.set(injectable.token, injectable.provideFactory);
+                } else {
+                    throw new DimeMountingError(
+                        "Received provider `" +
+                            getTokenName(injectable.token) +
+                            "` with no value!"
+                    );
+                }
+            }
+        }
+        __done.next(true);
+    }
+}
+
+class DefaultDimeSetupBuilder implements DimeSetupBuilder {
+    private packages: Package[];
+
+    constructor() {
+        this.packages = [];
+    }
+    
+    withPackages(...packages: Package[]): DimeSetupBuilder {
+        this.packages.push(...packages);
+        return this;
+    }
+
+    lazy(): DimeSetupLoader {
+        return new LazyDimeSetupLoader(this.packages);
+    }
 }
 
 class MapBasedInjector implements Injector {
@@ -52,40 +133,19 @@ class MapBasedInjector implements Injector {
 
 /**
  * This namespace includes important functions and objects required for using Dime
+ * 
+ * For more detailed documentation, go to {@link https://github.com/Anut-py/dime/wiki}
  */
 export namespace Dime {
     /**
-     * Sets up Dime and configures the given providers
-     * @param packages The packages to mount
+     * Starts configuration of Dime
+     * 
+     * @returns A `DimeSetupBuilder` for setup of the module
+     * 
+     * @see {@link DimeSetupBuilder}
      */
-    export function mountPackages(...packages: Package[]) {
-        const bundle = new Package("Dime", ...packages);
-        for (let injectable of bundle.__providers) {
-            if (!injectable.token) {
-                throw new DimeMountingError("Received provider with no token!");
-            } else {
-                const tokenName = getTokenName(injectable.token);
-                const matching = __deps
-                    .keys()
-                    .find((x) => getTokenName(x) === tokenName);
-                if (matching) {
-                    throw new DimeMountingError("Error");
-                } else if (injectable.provideClass) {
-                    __deps.set(injectable.token, new injectable.provideClass());
-                } else if (injectable.provideValue) {
-                    __deps.set(injectable.token, injectable.provideValue);
-                } else if (injectable.provideFactory) {
-                    __deps.set(injectable.token, injectable.provideFactory);
-                } else {
-                    throw new DimeMountingError(
-                        "Received provider `" +
-                            getTokenName(injectable.token) +
-                            "` with no value!"
-                    );
-                }
-            }
-        }
-        __done.next(true);
+    export function configure() {
+        return new DefaultDimeSetupBuilder();
     }
 
     /**
