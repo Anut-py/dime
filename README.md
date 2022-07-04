@@ -63,3 +63,6 @@ In this version of the code, `ItemsService` is an interface. Using Dime allows y
 
 ## Documentation and reference
 Coming soon
+
+## Contributors
+Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions on how to contribute.
