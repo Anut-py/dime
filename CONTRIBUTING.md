@@ -24,6 +24,8 @@ GH-1234: Fixed bugs in Dime.configure
 Once you finish making the necessary changes and are ready to merge them, create a pull request. In the description,
 add the phrase `fixes GH-<issue-number>`. This will automatically close the related issue when the pull request is merged.
 
+Please merge your changes into the `dev` branch, not `master`.
+
 ## 4. Adding yourself as a contributor
 After your changes are merged, you can let people know about your contributions by using the all-contributors bot. Go to
 the issue that you fixed and add a comment saying `@all-contributors please add @<your username> for <contribution types>`.
