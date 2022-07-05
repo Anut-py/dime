@@ -1,37 +1,66 @@
-## Welcome to GitHub Pages
+---
+layout: default
+title: Home
+nav_order: 1
+permalink: /
+---
 
-You can use the [editor on GitHub](https://github.com/Anut-py/dime/edit/master/docs/index.md) to maintain and preview the content for your website in Markdown files.
+# DIME: Dependency injection made easy
+Dime is a node.js library for dependency injection.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## What is dependency injection?
+Dependency injection is a way to *decouple* the pieces of your code; that is, separate the definition and implementation of your code.
 
-### Markdown
+## Why should you use dependency injection?
+Here's an example of an `ItemsWidget` which receives its data from `AmazonItemsService`.
+```ts
+// Without Dime 👎
+import { AmazonItemsService } from './amazon-items-service';
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+class ItemsWidget {
+    constructor(private itemsService: AmazonItemsService) {}
 
-```markdown
-Syntax highlighted code block
+    render() {
+        this.itemsService.getItems().subscribe(items => {
+            // ...
+        })
+    }
+}
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+// Display the widget
+const widget = new ItemsWidget(new AmazonItemsService());
+widget.render();
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+This looks fine at first glance, but what if at some point you decided to get your items from eBay instead of Amazon? Then you would have to replace `AmazonItemsService` with `EbayItemsService`. This isn't a big deal in the simple example above, but if `ItemsWidget` was used in several places throughout the code, this would be more difficult. As a project gets larger, it becomes impossible to maintain a codebase like this, and that's where Dime comes in.
 
-### Jekyll Themes
+```ts
+// With Dime 👍
+import { ItemsService } from './items-service';
+import { Inject } from '@coined/dime';
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Anut-py/dime/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+class ItemsWidget {
+    @Inject()
+    private itemsService: ItemsService;
 
-### Support or Contact
+    render() {
+        this.itemsService.getItems().subscribe(items => {
+            // ...
+        })
+    }
+}
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+// Setup
+const appPackage = new Package("App", {
+    token: "itemsService",
+    provideClass: AmazonItemsService // Use Amazon implementation
+});
+
+Dime.configure().withPackages(appPackage).lazy().load();
+
+// Display the widget
+const widget = new ItemsWidget();
+widget.render();
+```
+
+In this version of the code, `ItemsService` is an interface. Using Dime allows you to abstract away the implementation details of `ItemsService`. Here, if you wanted to use `EbayItemsService` instead, you would only need to change the code in one place, no matter how many times you used `ItemsWidget`.

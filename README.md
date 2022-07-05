@@ -62,7 +62,7 @@ widget.render();
 In this version of the code, `ItemsService` is an interface. Using Dime allows you to abstract away the implementation details of `ItemsService`. Here, if you wanted to use `EbayItemsService` instead, you would only need to change the code in one place, no matter how many times you used `ItemsWidget`.
 
 ## Documentation and reference
-Coming soon
+Additional information is on the [website](dime.js.org).
 
 ## Contributors
 Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions on how to contribute.
