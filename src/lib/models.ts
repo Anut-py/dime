@@ -1,5 +1,5 @@
 import { DimeSetupError } from "./errors";
-import { getTokenName, isClass } from "./internal";
+import { getTokenName, isClass, isProviderWithData } from "./internal";
 
 /**
  * A utility interface to represent classes
@@ -12,7 +12,7 @@ import { getTokenName, isClass } from "./internal";
  * const f: TypeRef<NotAClass> = NotAClass; // ERROR: NotAClass is not a class
  */
 export interface TypeRef<T> extends Function {
-    new (...args: any[]): T;
+    new (...args: unknown[]): T;
 }
 
 /**
@@ -42,7 +42,7 @@ export class Token {
  *
  * @see {@link Token} and {@link TypeRef}
  */
-export type ProviderToken = string | Token | TypeRef<any>;
+export type ProviderToken = string | Token | TypeRef<unknown>;
 
 /**
  * A provider must have a `token`, and one of the following:
@@ -57,9 +57,9 @@ export type ProviderToken = string | Token | TypeRef<any>;
  */
 export interface ProviderWithData {
     token: ProviderToken;
-    provideClass?: TypeRef<any>;
-    provideValue?: any;
-    provideFactory?: (() => any) | TypeRef<any>;
+    provideClass?: TypeRef<unknown>;
+    provideValue?: unknown;
+    provideFactory?: (() => unknown) | TypeRef<unknown>;
 }
 
 /**
@@ -75,7 +75,7 @@ export interface ProviderWithData {
  *
  * @see {@link TypeRef} and {@link ProviderWithData}
  */
-export type Provider = TypeRef<any> | ProviderWithData;
+export type Provider = TypeRef<unknown> | ProviderWithData;
 
 /**
  * Packages are a way to wrap multiple providers into one object.
@@ -88,7 +88,7 @@ export class Package {
      * @param name The name of the package. A unique name will help when tracing errors.
      * @param providers The providers to wrap. You can also give `Package`s as parameters;
      * in that case, it will take all the providers from that package and include them in this package.
-     * 
+     *
      * If there are multiple providers with the same token, the package will include only the first one
      * it encounters. All others will be ignored.
      */
@@ -115,46 +115,40 @@ export class Package {
     }
 
     private addProvider(provider: Provider, allProviders: ProviderWithData[]) {
-        if ((provider as TypeRef<any>).prototype?.constructor) {
+        if (isClass(provider)) {
             if (
                 !allProviders.find(
-                    (x: any) =>
-                        getTokenName(x.token) ==
-                        getTokenName(provider as TypeRef<any>)
+                    (x) => getTokenName(x.token) == getTokenName(provider)
                 )
             ) {
                 allProviders.push({
-                    token: provider as TypeRef<any>,
-                    provideClass: provider as TypeRef<any>,
+                    token: provider,
+                    provideClass: provider,
                 });
             }
-        } else if ((provider as ProviderWithData).token) {
-            if (
-                (provider as ProviderWithData).provideFactory &&
-                isClass((provider as ProviderWithData).provideFactory)
-            ) {
+        } else if (isProviderWithData(provider)) {
+            if (provider.provideFactory && isClass(provider.provideFactory)) {
+                let factory = provider.provideFactory;
                 if (
+                    isClass(factory) &&
                     !allProviders.find(
-                        (x: any) =>
+                        (x) =>
                             getTokenName(x.token) ===
-                            getTokenName((provider as ProviderWithData).token)
+                            getTokenName(provider.token)
                     )
                 ) {
                     allProviders.push({
-                        token: (provider as ProviderWithData).token,
-                        provideFactory: () =>
-                            new ((provider as ProviderWithData)
-                                .provideFactory as any)(),
+                        token: provider.token,
+                        provideFactory: () => new factory(),
                     });
                 }
             } else if (
                 !allProviders.find(
-                    (x: any) =>
-                        getTokenName(x.token) ===
-                        getTokenName((provider as ProviderWithData).token)
+                    (x) =>
+                        getTokenName(x.token) === getTokenName(provider.token)
                 )
             ) {
-                allProviders.push(provider as ProviderWithData);
+                allProviders.push(provider);
             }
         } else {
             throw new DimeSetupError(
@@ -164,5 +158,35 @@ export class Package {
                     provider
             );
         }
+    }
+}
+
+/**
+ * A simple class for broadcasting events
+ */
+export class Event {
+    private subscribers: Function[];
+    private emitted: boolean;
+
+    constructor() {
+        this.subscribers = [];
+        this.emitted = false;
+    }
+
+    /**
+     * Adds a subscriber to this event
+     * @param subscriber The subscriber function; called when the event occurs, or immediately if it has already occured.
+     */
+    subscribe(subscriber: Function) {
+        if (!this.emitted) this.subscribers.push(subscriber);
+        else subscriber();
+    }
+
+    /**
+     * Emits the event and calls all the subscriber functions
+     */
+    emit() {
+        this.emitted = true;
+        this.subscribers.forEach((x) => x());
     }
 }

@@ -1,24 +1,31 @@
-import { Dime } from "./lib/dime";
-import { DimeSetupError } from "./lib/errors";
+import { Dime, DimeSetupBuilder, DimeSetupLoader, Injector } from "./lib/dime";
+import {
+    DimeInjectionError,
+    DimeMountingError, DimeSetupError
+} from "./lib/errors";
 import { Inject } from "./lib/inject";
 import {
-    Package,
-    Provider,
-    ProviderWithData,
+    Event, Package,
+    Provider, ProviderToken, ProviderWithData,
     Token,
-    TypeRef,
-    ProviderToken
+    TypeRef
 } from "./lib/models";
 
 export {
     Dime,
+    DimeSetupBuilder,
+    DimeSetupLoader,
+    Injector,
     DimeSetupError,
+    DimeInjectionError,
+    DimeMountingError,
     Inject,
     Package,
     Provider,
     ProviderWithData,
     Token,
     TypeRef,
-    ProviderToken
+    ProviderToken,
+    Event,
 };
 
