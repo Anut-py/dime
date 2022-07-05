@@ -134,6 +134,14 @@ class MapBasedInjector implements Injector {
     }
 }
 
+export interface DimeSettings {
+    /**
+     * The time in milliseconds before `Inject` displays a warning. Uses the `DIME_INJECT_TIMEOUT` environment
+     * variable when run outside of a browser. Uses 5000 ms as a default.
+     */
+    readonly INJECT_TIMEOUT: number;
+}
+
 /**
  * This namespace includes important functions and objects required for using Dime
  *
@@ -155,4 +163,11 @@ export namespace Dime {
      * The global injector; used for injecting any providers set up by Dime
      */
     export const injector: Injector = new MapBasedInjector(__deps);
+
+    /**
+     * Settings for Dime
+     */
+    export const settings: DimeSettings = {
+        INJECT_TIMEOUT: parseInt(process?.env?.DIME_INJECT_TIMEOUT ?? "5000"),
+    };
 }
