@@ -1,6 +1,6 @@
-import { DimeMountingError } from "./errors";
-import { __done, getTokenName, __deps, KeyMap } from "./internal";
-import { Package, Provider, ProviderToken } from "./models";
+import { DimeInjectionError, DimeMountingError } from "./errors";
+import { getTokenName, KeyMap, __deps, __done } from "./internal";
+import { Package, ProviderToken } from "./models";
 
 /**
  * An interface that allows you to access registered Dime objects
@@ -42,7 +42,7 @@ export interface DimeSetupBuilder {
  * An interface to mount the Dime module with the provided setup.
  * You can get a reference to this through the `lazy` method of
  * `DimeSetupBuilder`
- * 
+ *
  * @see {@link DimeSetupBuilder}
  */
 export interface DimeSetupLoader {
@@ -82,7 +82,7 @@ class LazyDimeSetupLoader implements DimeSetupLoader {
                 }
             }
         }
-        __done.next(true);
+        __done.emit();
     }
 }
 
@@ -92,7 +92,7 @@ class DefaultDimeSetupBuilder implements DimeSetupBuilder {
     constructor() {
         this.packages = [];
     }
-    
+
     withPackages(...packages: Package[]): DimeSetupBuilder {
         this.packages.push(...packages);
         return this;
@@ -108,7 +108,10 @@ class MapBasedInjector implements Injector {
 
     get<T>(token: ProviderToken): T {
         const key = this.getValidToken(token);
-        if (!key) return key as any;
+        if (!key)
+            throw new DimeInjectionError(
+                "Couldn't find value for token `" + getTokenName(token) + "`!"
+            );
         return this.providerMap.get(key);
     }
 
@@ -133,15 +136,15 @@ class MapBasedInjector implements Injector {
 
 /**
  * This namespace includes important functions and objects required for using Dime
- * 
+ *
  * For more detailed documentation, go to {@link https://github.com/Anut-py/dime/wiki}
  */
 export namespace Dime {
     /**
      * Starts configuration of Dime
-     * 
+     *
      * @returns A `DimeSetupBuilder` for setup of the module
-     * 
+     *
      * @see {@link DimeSetupBuilder}
      */
     export function configure() {

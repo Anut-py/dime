@@ -1,27 +1,26 @@
-import { filter } from "rxjs";
 import { Dime } from "./dime";
 import { DimeInjectionError } from "./errors";
-import { getTokenName, __deps, __done } from "./internal";
+import { getTokenName, __done } from "./internal";
 import { ProviderToken } from "./models";
 
 /**
  * A decorator that injects a provider into a class's property.
- * 
+ *
  * @param type Optional, specifies the token to inject. If this is
  * omitted, the property name will be used as the token.
- * 
+ *
  * @example
  * class Example {
  *   ＠Inject()
  *   someService: SomeService; // Injects `SomeService`
  * }
- * 
+ *
  * console.log(new Example().someService.getItems());
  */
 export function Inject(type?: ProviderToken) {
-    return function (target: any, propertyKey: string): void {
-        __done.pipe(filter((x) => !!x)).subscribe(() => {
-            const token = Dime.injector.getValidToken(type || propertyKey);
+    return function (target: unknown, propertyKey: string): void {
+        __done.subscribe(() => {
+            const token = Dime.injector.getValidToken(type ?? propertyKey);
             if (!token) {
                 if (type) {
                     throw new DimeInjectionError(
@@ -47,10 +46,10 @@ export function Inject(type?: ProviderToken) {
             Object.defineProperty(target, propertyKey, {
                 get: function () {
                     if (!valMap.has(this))
-                        valMap.set(this, Dime.injector.get(token as ProviderToken));
+                        valMap.set(this, Dime.injector.get(token));
                     return valMap.get(this);
                 },
-                set: function (val: any) {
+                set: function (val: unknown) {
                     valMap.set(this, val);
                 },
             });
