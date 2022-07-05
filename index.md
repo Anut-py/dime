@@ -6,7 +6,7 @@ permalink: /
 ---
 
 # DIME: Dependency injection made easy
-Dime is a node.js library for dependency injection.
+Dime is an extremely lightweight node.js library for dependency injection.
 
 ## What is dependency injection?
 Dependency injection is a way to *decouple* the pieces of your code; that is, separate the definition and implementation of your code.

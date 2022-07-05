@@ -1,1 +1,9 @@
 remote_theme: just-the-docs/just-the-docs
+aux_links:
+  "dime on GitHub":
+    - "//github.com/Anut-py/dime"
+  "dime on npm":
+    - "//www.npmjs.com/package/@coined/dime"
+aux_links_new_tab: true
+search_enabled: true
+url: "https://dime.js.org"
