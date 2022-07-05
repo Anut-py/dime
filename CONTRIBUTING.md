@@ -2,7 +2,7 @@
 If you want to contribute to the project, please follow these steps to make the process as smooth as possible.
 
 ## 1. Selecting an issue
-After you find an issue that you want to work on, make sure you add yourself as an assignee. This tells other people
+After you find an issue that you want to work on, make sure you comment on the issue to tell other people
 that you are already working on it, so they don't need to.
 
 ## 2. Development
