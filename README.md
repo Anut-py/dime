@@ -1,8 +1,8 @@
 # DIME:  Dependency injection made easy
 [![quality gate](https://sonarcloud.io/api/project_badges/measure?project=coined_dime&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=coined_dime)
-[![coverage](https://sonarcloud.io/api/project_badges/measure?project=coined_dime&metric=coverage)](https://sonarcloud.io/summary/new_code?id=coined_dime)
+[![coverage](https://img.shields.io/sonar/coverage/coined_dime/master?server=https%3A%2F%2Fsonarcloud.io)](https://sonarcloud.io/component_measures?id=coined_dime&metric=coverage&view=list)
 [![build](https://github.com/Anut-py/dime/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/Anut-py/dime/actions/workflows/build.yml)
-[![npm package](https://badge.fury.io/js/@coined%2Fdime.svg)](https://badge.fury.io/js/@coined%2Fdime)
+[![npm](https://img.shields.io/npm/v/@coined/dime)](https://www.npmjs.com/package/@coined/dime)
 
 Dime is an extremely simple API that has one job: dependency injection.
 
