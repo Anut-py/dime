@@ -3,6 +3,7 @@ name: version check
 on:
   pull_request:
     branches: [ "master" ]
+    types: [opened, synchronize, reopened]
 
 jobs:
   check-version:
@@ -14,4 +15,4 @@ jobs:
         with:
           node-version: 16
       - run: npm install
-      - run: node run version-check
+      - run: npm run version-check
