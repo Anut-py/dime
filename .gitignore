@@ -1,3 +1,4 @@
 out
 .prettierrc
 node_modules
+coverage
