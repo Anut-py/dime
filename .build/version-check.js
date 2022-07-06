@@ -7,7 +7,7 @@ const versions = JSON.parse(
         .replaceAll("'", '"')
 );
 
-const version = JSON.parse(readFileSync(__dirname + "/package.json")).version;
+const version = JSON.parse(readFileSync(__dirname + "/../package.json")).version;
 
 if (versions.includes(version)) {
     console.error("✗ Version " + version + " already exists in npm.");

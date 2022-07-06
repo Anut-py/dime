@@ -1,11 +1,12 @@
 {
   "name": "@coined/dime",
-  "version": "0.0.1-alpha.6",
+  "version": "0.0.1-alpha.7",
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
   "scripts": {
     "build": "node .build/prebuild.js && tsc && node .build/postbuild.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "version-check": "node .build/version-check.js"
   },
   "author": {
     "name": "Anand Swaroop",
