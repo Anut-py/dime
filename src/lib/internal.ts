@@ -30,13 +30,18 @@ export class KeyMap {
     keys() {
         return this._keys;
     }
+
+    clear() {
+        this._vals.clear();
+        this._keys = [];
+    }
 }
 
 export const __deps = new KeyMap();
 export const __done = new Event();
 export function getTokenName(token: ProviderToken) {
     if (typeof token === "string") return token;
-    else if (token instanceof Token) return token.description;
+    else if (token instanceof Token) return token.name;
     else return token.name;
 }
 export function isClass(func: unknown): func is TypeRef<unknown> {

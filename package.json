@@ -4,7 +4,7 @@
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
   "scripts": {
-    "build": "node .build/prebuild.js && tsc && node .build/postbuild.js",
+    "build": "node .build/prebuild.js && tsc -p ./tsconfig.prod.json && node .build/postbuild.js",
     "test": "jest",
     "version-check": "node .build/version-check.js"
   },

@@ -1,11 +1,12 @@
 {
     "extends": "@tsconfig/node12/tsconfig.json",
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "*.spec.ts"],
+    "exclude": ["node_modules"],
     "compilerOptions": {
         "outDir": "out",
         "declaration": true,
         "experimentalDecorators": true,
-        "strictPropertyInitialization": false
+        "strictPropertyInitialization": false,
+        "types": ["node", "jest"]
     }
 }
