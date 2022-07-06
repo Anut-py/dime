@@ -11,7 +11,7 @@ export interface Injector {
      * @param token The token to search with
      * @returns The matching provider, or `null` if no provider was found
      */
-    get<T>(token: ProviderToken): T;
+    get<T = any>(token: ProviderToken): T;
 
     /**
      * Takes a token and looks for a registered token with the same name.
@@ -145,7 +145,7 @@ export interface DimeSettings {
 /**
  * This namespace includes important functions and objects required for using Dime
  *
- * For more detailed documentation, go to {@link https://github.com/Anut-py/dime/wiki}
+ * For more detailed documentation, go to {@link https://dime.js.org}
  */
 export namespace Dime {
     /**

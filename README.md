@@ -1,6 +1,7 @@
 # DIME:  Dependency injection made easy
-[![publish](https://github.com/Anut-py/dime/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/Anut-py/dime/actions/workflows/npm-publish.yml)
-[![npm version](https://badge.fury.io/js/@coined%2Fdime.svg)](https://badge.fury.io/js/@coined%2Fdime)
+[![quality gate](https://sonarcloud.io/api/project_badges/measure?project=Anut-py_dime&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Anut-py_dime)
+[![build](https://github.com/Anut-py/dime/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/Anut-py/dime/actions/workflows/build.yml)
+[![npm package](https://badge.fury.io/js/@coined%2Fdime.svg)](https://badge.fury.io/js/@coined%2Fdime)
 
 Dime is an extremely simple API that has one job: dependency injection.
 
@@ -65,4 +66,4 @@ In this version of the code, `ItemsService` is an interface. Using Dime allows y
 Additional information is on the [website](dime.js.org).
 
 ## Contributors
-Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for instructions on how to contribute.
+Please refer to [CONTRIBUTING.md](https://github.com/Anut-py/dime/blob/master/CONTRIBUTING.md) for instructions on how to contribute.

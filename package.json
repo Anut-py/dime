@@ -4,8 +4,8 @@
   "description": "Dependency injection made easy",
   "main": "src/index.ts",
   "scripts": {
-    "build": "node prebuild.js && tsc && node postbuild.js",
-    "test": "echo \"No tests written\""
+    "build": "node .build/prebuild.js && tsc && node .build/postbuild.js",
+    "test": "jest --coverage"
   },
   "author": {
     "name": "Anand Swaroop",
@@ -15,7 +15,10 @@
   "license": "MIT",
   "devDependencies": {
     "@tsconfig/node12": "^1.0.11",
+    "@types/jest": "^28.1.4",
     "@types/node": "^18.0.0",
+    "jest": "^28.1.2",
+    "ts-jest": "^28.0.5",
     "typescript": "^4.7.4"
   },
   "readme": "README.md",
