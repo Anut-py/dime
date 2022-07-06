@@ -1,6 +1,6 @@
 import { DimeInjectionError, DimeMountingError } from "./errors";
 import { getTokenName, KeyMap, __deps, __done } from "./internal";
-import { Package, ProviderToken } from "./models";
+import { Package, ProviderToken, TypeRef } from "./models";
 
 /**
  * An interface that allows you to access registered Dime objects
@@ -11,7 +11,7 @@ export interface Injector {
      * @param token The token to search with
      * @returns The matching provider, or `null` if no provider was found
      */
-    get<T = any>(token: ProviderToken): T;
+    get<T = any>(token: ProviderToken | TypeRef<T>): T;
 
     /**
      * Takes a token and looks for a registered token with the same name.
@@ -157,6 +157,13 @@ export namespace Dime {
      */
     export function configure() {
         return new DefaultDimeSetupBuilder();
+    }
+
+    /**
+     * Clears all existing Dime configuration
+     */
+    export function tearDown() {
+        __deps.clear();
     }
 
     /**

@@ -1,5 +1,6 @@
 # DIME:  Dependency injection made easy
 [![quality gate](https://sonarcloud.io/api/project_badges/measure?project=Anut-py_dime&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Anut-py_dime)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Anut-py_dime&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Anut-py_dime)
 [![build](https://github.com/Anut-py/dime/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/Anut-py/dime/actions/workflows/build.yml)
 [![npm package](https://badge.fury.io/js/@coined%2Fdime.svg)](https://badge.fury.io/js/@coined%2Fdime)
 

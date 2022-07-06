@@ -28,7 +28,7 @@ export interface TypeRef<T> extends Function {
  * @see {@link ProviderToken}
  */
 export class Token {
-    constructor(public readonly description: string) {}
+    constructor(public readonly name: string) {}
 }
 
 /**
